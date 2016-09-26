@@ -1,2 +1,13 @@
 StructureCraft/nb-configuration.xml
 StructureCraft/target/
+/StructureCraft/nbproject/
+/StructureCraft.Test/nbproject/
+/structurecraft-bukkit/target/
+/StructureAPI-Core/target/
+SettlerCraft-Core/nb-configuration.xml
+SettlerCraft-Core/target/
+.idea/
+structurecraft/structurecraft.iml
+StructureAPI-Core/
+SettlerCraft-Core/
+StructureAPI-Bukkit/
