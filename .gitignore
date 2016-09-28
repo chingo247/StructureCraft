@@ -11,3 +11,5 @@ structurecraft/structurecraft.iml
 StructureAPI-Core/
 SettlerCraft-Core/
 StructureAPI-Bukkit/
+/structurecraft/nbactions.xml
+/structurecraft/nb-configuration.xml
