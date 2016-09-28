@@ -18,7 +18,9 @@ package com.chingo247.structurecraft.persistence.repositories;
 
 import com.chingo247.structurecraft.model.structure.Structure;
 import com.chingo247.structurecraft.model.world.Spatial;
+import com.chingo247.structurecraft.persistence.connection.IDBIProvider;
 import com.chingo247.structurecraft.persistence.dao.StructureDAO;
+import com.chingo247.structurecraft.services.ServicesManager;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
@@ -29,16 +31,16 @@ import org.skife.jdbi.v2.Handle;
 public class StructureRepository {
     
     private Handle handle;
-    
-    SpatialRepository spatialRepository;
-    
-    StructureDAO structureDAO;
+    private SpatialRepository spatialRepository;
+    private StructureDAO structureDAO;
     
     /**
      * Constructor.
      */
-    public StructureRepository(DBI dbi, Handle handle) {
+    public StructureRepository(Handle handle, boolean useSpatialIndex) {
         this.handle = handle;
+        this.structureDAO = handle.attach(StructureDAO.class);
+        this.spatialRepository = new SpatialRepository(handle, useSpatialIndex);
     }
     
     
@@ -72,7 +74,7 @@ public class StructureRepository {
      * @param structure The structure to update
      */
     public void update(Structure structure) {
-        
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**
@@ -80,7 +82,7 @@ public class StructureRepository {
      * @param id The id of the structure
      */
     public void delete(long id) {
-        
+        throw new UnsupportedOperationException("Not yet implemented");
     }
     
 }

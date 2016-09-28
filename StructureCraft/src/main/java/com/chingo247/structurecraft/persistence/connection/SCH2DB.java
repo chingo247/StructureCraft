@@ -20,8 +20,6 @@ import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.skife.jdbi.v2.DBI;
 
 /**
@@ -49,10 +47,12 @@ public class SCH2DB implements IDBIProvider {
     }
 
     @Override
-    public boolean supportSpatials() {
+    public boolean useSpatialIndex() {
         return false;
     }
 
+  
+    
     
     
 }

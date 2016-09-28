@@ -18,6 +18,7 @@ package com.chingo247.structurecraft.persistence.dao;
 
 import com.chingo247.structurecraft.model.world.Spatial;
 import com.chingo247.structurecraft.persistence.mappers.DefaultSpatialMapper;
+import java.util.List;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.GetGeneratedKeys;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
@@ -47,19 +48,41 @@ public interface SpatialDAO {
      * @return The generated id of the spatial
      */
     @GetGeneratedKeys
-    @SqlUpdate("insert into SPATIALS (origin_x, origin_y, origin_z, orientation, min_x, min_y, min_z, max_x, max_y, max_z, spatial_type, worlduuid) "
-             + "values (:origin_x, :origin_y, :origin_z, :orientation, :min_x, :min_y, :min_z, :max_x, :max_y, :max_z, :spatial_type, :worlduuid)")
+    @SqlUpdate("INSERT INTO SPATIALS (origin_x, origin_y, origin_z, orientation, min_x, min_y, min_z, max_x, max_y, max_z, spatial_type, worlduuid) "
+             + "VALUES (:origin_x, :origin_y, :origin_z, :orientation, :min_x, :min_y, :min_z, :max_x, :max_y, :max_z, :spatial_type, :worlduuid)")
     long insert(@Bind("origin_x") int origin_x, @Bind("origin_y") int origin_y, @Bind("origin_z") int origin_z, 
                 @Bind("orientation") int orientation,  @Bind("min_x") int min_x,  @Bind("min_y") int min_y,  @Bind("min_z") int min_z, 
                 @Bind("max_x")int max_x, @Bind("max_y") int max_y, @Bind("max_z") int max_z, @Bind("spatial_type") String spatial_type, @Bind("worlduuid") String worlduuid);
     
     
     
-    @SqlUpdate("DELETE from SPATIALS S where S.id = :id")
+    @SqlUpdate("DELETE FROM SPATIALS S WHERE S.id = :id")
     void delete(@Bind("id") long id);
     
     @SqlQuery("SELECT * FROM SPATIALS S WHERE S.id = :id")
     @Mapper(DefaultSpatialMapper.class)
     Spatial findById(@Bind("id") long id);
+    
+    @SqlQuery("SELECT * FROM SPATIALS S "
+            + "WHERE s.world_uuid = :world_uuid"
+            + "AND S.max_x >= :min_x "
+            + "AND S.min_x <= :max_x "
+            + "AND S.max_y >= :min_y "
+            + "AND S.min_y <= :max_y "
+            + "AND S.max_z >= :min_z "
+            + "AND S.min_z <= :max_z")
+    @Mapper(DefaultSpatialMapper.class)
+    List<Spatial> findSpatialsWithin(@Bind("world_uuid") String worldUUID, @Bind("min_x") int minX, @Bind("min_y") int minY, @Bind("min_z") int minZ, @Bind("max_x") int maxX, @Bind("max_y") int maxY, @Bind("max_z") int maxZ);
+    
+    @SqlQuery("EXISTS (SELECT 1 FROM SPATIALS S "
+            + "WHERE s.world_uuid = :world_uuid "
+            + "AND S.max_x >= :min_x "
+            + "AND S.min_x <= :max_x "
+            + "AND S.max_y >= :min_y "
+            + "AND S.min_y <= :max_y "
+            + "AND S.max_z >= :min_z "
+            + "AND S.min_z <= :max_z )")
+    boolean hasSpatialsWithin(@Bind("world_uuid") String worldUUID, @Bind("min_x") int minX, @Bind("min_y") int minY, @Bind("min_z") int minZ, @Bind("max_x") int maxX, @Bind("max_y") int maxY, @Bind("max_z") int maxZ);
+    
     
 }

@@ -1,3 +1,5 @@
+package tests;
+
 /*
  * Copyright (C) 2016 Chingo
  *
@@ -15,21 +17,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
-import com.chingo247.structurecraft.model.structure.ConstructionStatus;
 import com.chingo247.structurecraft.model.structure.Structure;
 import com.chingo247.structurecraft.model.world.Spatial;
+import com.chingo247.structurecraft.persistence.connection.IDBIProvider;
 import com.chingo247.structurecraft.persistence.dao.SettlerDAO;
-import com.chingo247.structurecraft.persistence.dao.SpatialDAO;
-import com.chingo247.structurecraft.persistence.dao.StructureDAO;
-import com.chingo247.structurecraft.persistence.dao.StructureTreeDAO;
+import com.chingo247.structurecraft.persistence.dao.StructureOwnershipDAO;
 import com.chingo247.structurecraft.persistence.repositories.StructureRepository;
 import org.junit.*;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
-import java.sql.Timestamp;
 import java.util.UUID;
+import tests.connection.MyConnectionFactory;
 
 /**
  *
@@ -39,12 +38,11 @@ public class StructureOwnershipDAOTest {
 
     private Handle h;
     private DBI dbi;
+    private IDBIProvider dbiProvider;
 
     public StructureOwnershipDAOTest() {
-        SCMySQLDB mySQL = new SCMySQLDB("localhost", 3306, "root", "root");
-        System.out.println("Connecting...");
-
-        this.dbi = mySQL.getDBI();
+        this.dbiProvider = new MyConnectionFactory().getBIProvider();
+        this.dbi = dbiProvider.getDBI();
     }
 
     @BeforeClass
@@ -72,42 +70,35 @@ public class StructureOwnershipDAOTest {
      */
     @Test
     public void testInsertStructureOwnership() {
-        SpatialDAO spatialDAO = h.attach(SpatialDAO.class);
-        StructureDAO structureDAO = h.attach(StructureDAO.class);
-        StructureTreeDAO structureTreeDAO = h.attach(StructureTreeDAO.class);
-        StructureRepository sr = new StructureRepository(spatialDAO, structureDAO);
-        
-        Spatial spatial = new Spatial(0, 0, 0, 0, 0, 0, UUID.randomUUID(), 0);
-        Structure structure = new Structure(null, spatial, "test", ConstructionStatus.BUILDING, 0, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()));
+        StructureRepository sr = new StructureRepository(h, dbiProvider.useSpatialIndex());
+
+        Spatial spatial = new Spatial(0, 0, 0, 0, 0, 0, UUID.randomUUID(), "test-world", 0);
+        Structure structure = new Structure(spatial, "test-structure");
         long structureId = sr.add(structure);
-        
-        
+
         SettlerDAO settlerDAO = h.attach(SettlerDAO.class);
         UUID playerUUID = UUID.randomUUID();
         long settler = settlerDAO.insert("test", playerUUID.toString(), true);
-        
+
         StructureOwnershipDAO ownershipDAO = h.attach(StructureOwnershipDAO.class);
         ownershipDAO.insert(structureId, settler, 1);
     }
-    
+
     /**
      * Test insert duplicate ownership
      */
     @Test(expected = Exception.class)
     public void testInsertDuplicateStructureOwnership() {
-        SpatialDAO spatialDAO = h.attach(SpatialDAO.class);
-        StructureDAO structureDAO = h.attach(StructureDAO.class);
-        StructureRepository sr = new StructureRepository(spatialDAO, structureDAO);
-        
-        Spatial spatial = new Spatial(0, 0, 0, 0, 0, 0, UUID.randomUUID(), 0);
-        Structure structure = new Structure(null, spatial, "test", ConstructionStatus.BUILDING, 0, new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()), new Timestamp(System.currentTimeMillis()));
+        StructureRepository sr = new StructureRepository(h, dbiProvider.useSpatialIndex());
+
+        Spatial spatial = new Spatial(0, 0, 0, 0, 0, 0, UUID.randomUUID(), "test-world", 0);
+        Structure structure = new Structure(spatial, "test-structure");
         long structureId = sr.add(structure);
-        
-        
+
         SettlerDAO settlerDAO = h.attach(SettlerDAO.class);
         UUID playerUUID = UUID.randomUUID();
         long settler = settlerDAO.insert("test", playerUUID.toString(), true);
-        
+
         StructureOwnershipDAO ownershipDAO = h.attach(StructureOwnershipDAO.class);
         ownershipDAO.insert(structureId, settler, 1);
         ownershipDAO.insert(structureId, settler, 1);

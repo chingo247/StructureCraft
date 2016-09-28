@@ -17,6 +17,7 @@
 package com.chingo247.structurecraft;
 
 
+import com.chingo247.structurecraft.io.schematic.SchematicStorage;
 import com.chingo247.structurecraft.editing.actions.selection.CUISelectionManager;
 import com.chingo247.structurecraft.editing.actions.selection.NoneSelectionManager;
 import com.chingo247.structurecraft.editing.block.BlockSessionFactory;

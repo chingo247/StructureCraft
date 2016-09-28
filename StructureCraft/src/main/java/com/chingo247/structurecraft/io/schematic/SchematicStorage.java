@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.chingo247.structurecraft.services;
+package com.chingo247.structurecraft.io.schematic;
 
 import com.chingo247.structurecraft.StructureCraft;
 import com.chingo247.structurecraft.io.blockstore.NBTUtils;
@@ -49,6 +49,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 import com.chingo247.structurecraft.persistence.connection.IDBIProvider;
+import com.chingo247.structurecraft.services.ServicesManager;
 import com.sk89q.jnbt.ByteArrayTag;
 import com.sk89q.jnbt.NamedTag;
 import java.util.List;

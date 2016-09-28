@@ -24,7 +24,6 @@ import java.nio.charset.Charset;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -74,16 +73,9 @@ public final class SCMySQLDB implements IDBIProvider {
         
         int cv = VersionUtil.compare("5.7", version);
         this.spatialSupport = cv == -1 || cv == 0;
-        
-        
-        
     }
 
-    @Override
-    public boolean supportSpatials() {
-        return spatialSupport;
-    }
-
+  
     public String getMYSQLVersion() {
         return version;
     }
@@ -112,9 +104,6 @@ public final class SCMySQLDB implements IDBIProvider {
 
             execute(path + "structurecraft_drop_all.sql", h);
             
-            System.out.println(version);
-            
-            if (true) return;
             
             if (version.startsWith("5.6")) {
                 execute(path + "structurecraft_spatial_default.sql", h);
@@ -143,6 +132,11 @@ public final class SCMySQLDB implements IDBIProvider {
     private static void executeSQLStatement(String path, Handle handle) throws IOException {
         String sql = Files.toString(new File(path), Charset.defaultCharset());
         handle.execute(sql);
+    }
+
+    @Override
+    public boolean useSpatialIndex() {
+        return spatialSupport;
     }
     
 }

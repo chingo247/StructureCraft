@@ -17,7 +17,6 @@
 package com.chingo247.structurecraft.editing;
 
 import com.chingo247.structurecraft.editing.block.BlockSession;
-import com.chingo247.structurecraft.editing.block.BlockSessionFactory;
 import com.chingo247.structurecraft.exception.placement.PlacementException;
 import com.chingo247.structurecraft.model.structure.Structure;
 import com.chingo247.structurecraft.persistence.dao.StructureDAO;
@@ -28,9 +27,7 @@ import com.chingo247.structurecraft.editing.actions.structure.Rollback;
 import com.chingo247.structurecraft.editing.context.BlockPlaceContext;
 import com.chingo247.structurecraft.services.ServicesManager;
 import com.chingo247.structurecraft.util.functions.ProduceWithInput;
-import com.chingo247.structurecraft.util.functions.ProduceWithInput2Val;
 import com.sk89q.worldedit.entity.Player;
-import fiber.core.api.BuildContext;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
@@ -45,12 +42,10 @@ public class StructureEditSession {
     private static final Logger LOG = Logger.getLogger(StructureEditSession.class.getName());
 
     private static final UUID CONSOLE = UUID.randomUUID();
-    private Structure structure;
-    private final BlockSessionFactory blockSessionFactory;
+    private final Structure structure;
     private Construction currentAction;
 
-    public StructureEditSession(BlockSessionFactory bsf, Structure structure) {
-        this.blockSessionFactory = bsf;
+    public StructureEditSession(Structure structure) {
         this.structure = structure;
     }
 
@@ -73,11 +68,12 @@ public class StructureEditSession {
                 BlockSession prevSession = null;
                 for (Structure s : structures) {
                     // Get the session and cancel any active actions
-                    BlockSession session = blockSessionFactory.createSession(world, playerUUID);
-                    session.cancel();
+                    
                     
                     Construction action = actionProducer.create(s);
                     StructureEditSession se = StructureEditSessionManager.IMP.getSession(s);
+                    
+                    
                     se.currentAction = action;
 
                     // Chain tasks...
@@ -92,7 +88,7 @@ public class StructureEditSession {
                         first = action;
                     }
 
-                    prevSession = session;
+                    prevSession = action.getSession();
                 }
                 if (first != null) {
                     first.execute();

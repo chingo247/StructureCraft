@@ -17,7 +17,7 @@
 package com.chingo247.structurecraft.io.schematic;
 
 /**
- *
+ * Representation of the
  * @author Chingo
  */
 public class SchematicHeader {

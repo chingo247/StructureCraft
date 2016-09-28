@@ -5,13 +5,66 @@
     <artifactId>structurecraft.test</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <!-- here the phase you need -->
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/config</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <profiles>
+        <profile>
+            <id>mysql_57</id>
+            <activation>
+                <activeByDefault>1</activeByDefault>
+            </activation>
+            <properties>
+                <database.type>mysql57_plus</database.type>
+                <database.username>root</database.username>
+                <database.password>root</database.password>
+                <database.url>localhost</database.url>
+                <database.port>3306</database.port>
+            </properties>
+            
+        </profile>
+        <profile>
+            <id>mysql_56</id>
+            <activation>
+                <activeByDefault>1</activeByDefault>
+            </activation>
+            <properties>
+                <database.type>mysql56</database.type>
+                <database.username>root</database.username>
+                <database.password>root</database.password>
+                <database.url>localhost</database.url>
+                <database.port>3307</database.port>
+            </properties>
+        </profile>
+    </profiles>
+    
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>StructureCraft</artifactId>
-            <version>3.0.0</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -23,6 +76,11 @@
             <artifactId>hamcrest-core</artifactId>
             <version>1.3</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>structurecraft</artifactId>
+            <version>3.0.0</version>
         </dependency>
     </dependencies>
     <properties>

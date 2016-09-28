@@ -27,7 +27,7 @@ import com.chingo247.structurecraft.model.container.FastClipboard;
 import com.chingo247.structurecraft.io.schematic.ISchematic;
 import com.chingo247.structurecraft.io.schematic.Schematic;
 import com.chingo247.structurecraft.model.world.Direction;
-import com.chingo247.structurecraft.services.SchematicStorage;
+import com.chingo247.structurecraft.io.schematic.SchematicStorage;
 import com.chingo247.structurecraft.util.WorldUtil;
 import com.sk89q.jnbt.CompoundTag;
 import com.sk89q.worldedit.BlockVector;

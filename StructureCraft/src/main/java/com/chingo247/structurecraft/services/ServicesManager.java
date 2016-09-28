@@ -16,7 +16,7 @@
  */
 package com.chingo247.structurecraft.services;
 
-import com.chingo247.structurecraft.exception.StructureCraftException;
+import com.chingo247.structurecraft.persistence.connection.IDBIProvider;
 import com.chingo247.structurecraft.services.permission.PermissionManager;
 import com.chingo247.structurecraft.services.plugins.IWorldEditIntegration;
 import com.google.common.base.Preconditions;
@@ -30,9 +30,9 @@ public class ServicesManager {
     
     public static final ServicesManager IMP = new ServicesManager();
     
-    private DBI dbi;
     private IEconomyProvider economy;
     private IWorldEditIntegration worldedit;
+    private IDBIProvider dBIProvider;
 
     private ServicesManager() {
     }
@@ -46,9 +46,9 @@ public class ServicesManager {
         this.worldedit = worldEdit;
     }
     
-    public void registerDBI(DBI dbi) {
-        Preconditions.checkState(this.dbi == null, "DBI already registered!");
-        this.dbi = dbi;
+    public void registerDBIProvider(IDBIProvider dBIProvider) {
+        Preconditions.checkState(this.dBIProvider == null, "DBI already registered!");
+        this.dBIProvider = dBIProvider;
     }
     
     public void registerPermissions(IPermissionRegistry registry) {
@@ -58,7 +58,11 @@ public class ServicesManager {
     }
 
     public DBI getDBI() {
-        return dbi;
+        return dBIProvider.getDBI();
+    }
+    
+    public IDBIProvider getDBIProvider() {
+        return dBIProvider;
     }
 
     public IEconomyProvider getEconomy() {
@@ -68,5 +72,6 @@ public class ServicesManager {
     public IWorldEditIntegration getWorldedit() {
         return worldedit;
     }
+
     
 }

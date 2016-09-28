@@ -62,4 +62,8 @@ public interface StructureDAO {
     //TODO NOT YET IMPLEMENTED
     Structure findStructureOnPosition(UUID uuid, Vector pos1);
     
+    
+    @SqlQuery("EXISTS ( SELECT 1 FROM SPATIALS ")
+    List<Structure> findStructuresWithin();
+    
 }

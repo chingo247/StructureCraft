@@ -1,3 +1,5 @@
+package tests;
+
 /*
  * Copyright (C) 2016 Chingo
  *
@@ -16,7 +18,9 @@
  */
 
 
+import tests.connection.MyConnectionFactory;
 import com.chingo247.structurecraft.model.entities.Settler;
+import com.chingo247.structurecraft.persistence.connection.IDBIProvider;
 import com.chingo247.structurecraft.persistence.connection.SCMySQLDB;
 import com.chingo247.structurecraft.persistence.dao.SettlerDAO;
 import org.junit.*;
@@ -24,17 +28,22 @@ import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
 import java.util.UUID;
+import org.skife.jdbi.v2.tweak.ConnectionFactory;
 
 /**
  *
  * @author Chingo
  */
+
 public class SettlerDAOTest {
 
     private Handle h;
-    private static final DBI dbi = new SCMySQLDB("localhost", 3306, "root", "root").getDBI();
+    private IDBIProvider dBIProvider;
+    private DBI dbi;
 
     public SettlerDAOTest() {
+        this.dBIProvider = new MyConnectionFactory().getBIProvider();
+        this.dbi = dBIProvider.getDBI();
     }
 
     @BeforeClass

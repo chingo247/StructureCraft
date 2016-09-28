@@ -1,3 +1,5 @@
+package tests;
+
 /*
  * Copyright (C) 2016 Chingo247
  *

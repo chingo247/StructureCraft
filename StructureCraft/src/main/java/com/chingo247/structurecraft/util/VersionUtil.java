@@ -26,8 +26,6 @@ public class VersionUtil {
      * @return comp result
      */
     public static int compare(String versionA, String versionB) {
-        System.out.println("Comparing: " + versionA + ", " + versionB);
-        
         String[] versionsA = versionA.split("\\.");
         String[] versionsB = versionB.split("\\.");
         
@@ -46,7 +44,6 @@ public class VersionUtil {
             }
             versionsA = va;
         }
-        System.out.println(Arrays.toString(versionsA));
         
         for(int i = 0; i < versionsA.length; i++) {
             int a = Integer.parseInt(versionsA[i]);

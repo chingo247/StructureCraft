@@ -1,3 +1,5 @@
+package tests;
+
 /*
  * Copyright (C) 2016 Chingo
  *
@@ -15,32 +17,33 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.UUID;
 
+import com.chingo247.structurecraft.model.structure.Structure;
+import com.chingo247.structurecraft.model.world.Spatial;
+import com.chingo247.structurecraft.persistence.connection.IDBIProvider;
 import com.chingo247.structurecraft.persistence.connection.SCMySQLDB;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import com.chingo247.structurecraft.persistence.repositories.StructureRepository;
+import org.junit.*;
 import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
+
+import java.util.UUID;
+import tests.connection.MyConnectionFactory;
 
 /**
  *
  * @author Chingo
  */
-public class SpatialDAOTest {
+public class StructureRepositoryTest {
 
     private Handle h;
     private DBI dbi;
-    private SCMySQLDB mySQL;
-    
-    public SpatialDAOTest() {
-        this.mySQL = new SCMySQLDB("localhost", 3306, "root", "root");
-        System.out.println("Connecting...");
+    private IDBIProvider dBIProvider;
 
-        this.dbi = mySQL.getDBI();
+    public StructureRepositoryTest() {
+        this.dBIProvider = new MyConnectionFactory().getBIProvider();
+        this.dbi = dBIProvider.getDBI();
+
     }
 
     @BeforeClass
@@ -64,11 +67,13 @@ public class SpatialDAOTest {
     }
 
     /**
-     * Test insert spatial
+     * Test insert structure
      */
     @Test
-    public void testInsertSpatial() {
-        SpatialDAO spatialDAO = h.attach(SpatialDAO.class);
-        spatialDAO.insert(0, 0, 0, 90, 10, 10, 10, 100, 100, 100, "structure", UUID.randomUUID().toString());
+    public void testInsertStructure() {
+        StructureRepository sr = new StructureRepository(h, true);
+        Spatial spatial = new Spatial(0, 0, 0, 0, 0, 0, UUID.randomUUID(), "test-world", 0);
+        Structure structure = new Structure(spatial, "test-structure");
+        sr.add(structure);
     }
 }

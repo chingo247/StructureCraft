@@ -20,7 +20,6 @@ import com.chingo247.structurecraft.model.world.Spatial;
 import com.chingo247.structurecraft.persistence.connection.IDBIProvider;
 import com.chingo247.structurecraft.persistence.dao.SpatialDAO;
 import com.chingo247.structurecraft.persistence.dao.SpatialDAOMySQL57;
-import org.skife.jdbi.v2.DBI;
 import org.skife.jdbi.v2.Handle;
 
 /**
@@ -31,12 +30,10 @@ public class SpatialRepository {
     
     private SpatialDAO spatialDAO;
     private Handle handle;
-    private boolean supportsSpatial;
 
-    public SpatialRepository(IDBIProvider provider, Handle handle) {
+    public SpatialRepository(Handle handle, boolean useSpatialIndex) {
         this.handle = handle;
-        this.supportsSpatial = provider.supportSpatials();
-        this.spatialDAO = supportsSpatial ? handle.attach(SpatialDAOMySQL57.class) : handle.attach(SpatialDAO.class);
+        this.spatialDAO = useSpatialIndex ? handle.attach(SpatialDAOMySQL57.class) : handle.attach(SpatialDAO.class);
     }
     
     public long insert(Spatial sp) {
@@ -50,4 +47,7 @@ public class SpatialRepository {
     public void delete(long id) {
         this.spatialDAO.delete(id);
     }
+    
+    
+    
 }

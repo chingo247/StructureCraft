@@ -16,6 +16,8 @@
  */
 package com.chingo247.structurecraft.editing.actions.structure;
 
+import com.chingo247.structurecraft.StructureCraft;
+import com.chingo247.structurecraft.StructureCraftAPI;
 import com.chingo247.structurecraft.editing.actions.Create;
 import com.chingo247.structurecraft.editing.context.PlaceContext;
 import com.chingo247.structurecraft.editing.context.CreateStructureContext;
@@ -81,7 +83,7 @@ public class CreateStructure implements Create<Structure> {
                     Handle tx = handle.begin();
                     try {
                         
-                        StructureRepository sr = new StructureRepository(dbi, handle);
+                        StructureRepository sr = StructureCraftAPI.newStructureRepository(handle);
                         Vector min = affected.getMinimumPoint(), max = affected.getMaximumPoint();
                       
                         

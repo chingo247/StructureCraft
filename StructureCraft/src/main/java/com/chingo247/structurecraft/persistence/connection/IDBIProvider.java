@@ -26,6 +26,6 @@ public interface IDBIProvider {
     
     DBI getDBI();
     
-    boolean supportSpatials();
+    boolean useSpatialIndex();
     
 }
