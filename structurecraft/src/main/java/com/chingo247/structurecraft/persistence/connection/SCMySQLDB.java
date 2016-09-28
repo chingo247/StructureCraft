@@ -90,7 +90,7 @@ public final class SCMySQLDB implements IDBIProvider {
     }
 
     public static void main(String[] args) {
-        SCMySQLDB mySQL = new SCMySQLDB("localhost", 3306, "root", "root");
+        SCMySQLDB mySQL = new SCMySQLDB("localhost", 3307, "root", "root");
         System.out.println("Connecting...");
         DBI dbi = mySQL.getDBI();
         System.out.println("Connected!");

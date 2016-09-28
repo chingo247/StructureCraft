@@ -71,7 +71,7 @@ public class StructureRepositoryTest {
      */
     @Test
     public void testInsertStructure() {
-        StructureRepository sr = new StructureRepository(h, true);
+        StructureRepository sr = new StructureRepository(h, dBIProvider.useSpatialIndex());
         Spatial spatial = new Spatial(0, 0, 0, 0, 0, 0, UUID.randomUUID(), "test-world", 0);
         Structure structure = new Structure(spatial, "test-structure");
         sr.add(structure);

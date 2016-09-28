@@ -13,3 +13,4 @@ SettlerCraft-Core/
 StructureAPI-Bukkit/
 /structurecraft/nbactions.xml
 /structurecraft/nb-configuration.xml
+/structurecraft.test/target/

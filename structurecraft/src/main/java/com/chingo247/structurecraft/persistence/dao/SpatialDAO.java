@@ -48,7 +48,7 @@ public interface SpatialDAO {
      * @return The generated id of the spatial
      */
     @GetGeneratedKeys
-    @SqlUpdate("INSERT INTO SPATIALS (origin_x, origin_y, origin_z, orientation, min_x, min_y, min_z, max_x, max_y, max_z, spatial_type, worlduuid) "
+    @SqlUpdate("INSERT INTO SPATIALS (origin_x, origin_y, origin_z, orientation, min_x, min_y, min_z, max_x, max_y, max_z, spatial_type, world_uuid) "
              + "VALUES (:origin_x, :origin_y, :origin_z, :orientation, :min_x, :min_y, :min_z, :max_x, :max_y, :max_z, :spatial_type, :worlduuid)")
     long insert(@Bind("origin_x") int origin_x, @Bind("origin_y") int origin_y, @Bind("origin_z") int origin_z, 
                 @Bind("orientation") int orientation,  @Bind("min_x") int min_x,  @Bind("min_y") int min_y,  @Bind("min_z") int min_z, 
