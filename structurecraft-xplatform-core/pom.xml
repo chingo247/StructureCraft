@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.chingo247</groupId>
+    <artifactId>structurecraft-xplatform-core</artifactId>
+    <version>3.0.0</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    <name>structurecraft-xplatform-core</name>
+    
+    <repositories>
+        <repository>
+            <id>Nexus</id>
+            <url>http://chingo247.com:8081/nexus/content/repositories/thirdparty/</url>
+        </repository>
+        <!--Vault Repo-->
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
+        </repository>
+        <!--WorldEdit Repo-->
+        <repository>
+            <id>WorldEdit</id>
+            <url>http://maven.sk89q.com/repo</url>
+        </repository>
+    </repositories>
+    
+    <dependencies>
+        <!--WorldEdit-->
+        <dependency>
+            <groupId>com.sk89</groupId>
+            <artifactId>worldedit</artifactId>  
+            <version>6.1</version>
+            <!--<scope>provided</scope>-->
+        </dependency>
+    </dependencies>
+</project>
